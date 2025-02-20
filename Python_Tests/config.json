@@ -1,0 +1,11 @@
+{
+    "sendgrid_api_key": "that_is_the_apikey_for_this_tool",
+    "error_count": 50,
+    "data": [
+      ["apikey1", "Suchmuster1", "Versandadresse1", "defaultadresse1"],
+      ["apikey2", "Suchmuster2", "Versandadresse2", "defaultadresse2"],
+      ["apikey3", "Suchmuster3", "Versandadresse3", "defaultadresse3"]
+    ],
+    "text_variable": "Dies ist ein Beispieltext mit Suchmuster1 und anderen Inhalten."
+  }
+  
