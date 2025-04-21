@@ -11,7 +11,8 @@ def berechne_rentenluecke():
     rentenerhoehung_vor_rente = float(input("Geben Sie die jährliche Rentenerhöhung bis zum Renteneintritt in Prozent ein: ")) / 100
     rentenerhoehung_nach_rente = float(input("Geben Sie die jährliche Rentenerhöhung nach dem Renteneintritt in Prozent ein: ")) / 100
 
-    # Listen für die Jahre, Einkünfte und Ausgaben
+
+   # Listen für die Jahre, Einkünfte und Ausgaben
     jahre = []
     einkuenfte_liste = []
     ausgaben_liste = []
