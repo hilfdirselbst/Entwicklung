@@ -1,4 +1,5 @@
 from datetime import datetime
+import time
 
 import matplotlib.pyplot as plt
 
@@ -11,11 +12,13 @@ def berechne_rentenluecke():
     # Zeitrahmen
     geburtsjahr = int(input("Geben Sie Ihr Geburtsjahr (z.B. 1980) ein: "))
     renteneintrittsalter = int(input("Geben Sie Ihr Renteneintrittsalter (z.B. 67) ein: "))
+    renteneintritt = geburtsjahr + renteneintrittsalter
     lebensalter = int(input("Geben Sie Ihr gewünschtes Lebensende (z.B. 90) ein: "))
     jahre_bis_renteneintritt = renteneintrittsalter - (aktuelles_jahr - geburtsjahr)
     rentenjahre = lebensalter - renteneintrittsalter
     lebensjahre_aktuell = lebensalter - (aktuelles_jahr - geburtsjahr) 
     print(f"Lebensjahre: {lebensjahre_aktuell}")
+    print(f"Renteneintritt: {renteneintritt}")
     print(f"Jahre bis zum Renteneintritt: {jahre_bis_renteneintritt}")
     print(f"Jahre nach dem Renteneintritt: {rentenjahre}")
     
@@ -40,11 +43,35 @@ def berechne_rentenluecke():
     rentenerhoehung_vor_rente = float(input("Geben Sie die jährliche Rentenerhöhung bis zum Renteneintritt in Prozent ein: ")) / 100
     rentenerhoehung_nach_rente = float(input("Geben Sie die jährliche Rentenerhöhung nach dem Renteneintritt in Prozent ein: ")) / 100
 
-
+    # zusätzliche Einkünfte 
+    # Hier können Sie weitere Einkünfte hinzufügen z.B private Renten-, Lebensversicherungen oder andere Einkünfte
+    einkuenfte = []
+    print("Sie können jetzt weitere Einkünfte, wie private Renten-, Lebensversicherungen oder andere Einkünfte, eingeben.")
+    while True:
+        name = input("Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): ")
+        if name.lower() == 'stop':
+            break
+        startjahr = int(input(f"Geben Sie das Jahr(YYYY) ein ab dem sie das Einkommen {name} erhalten: "))
+        startjahr_rente = startjahr
+        startwert_mon = float(input(f"Geben Sie die Höhe der monatlichen Zahlung für {name} ein: "))
+        startwert = startwert_mon * 12  # jährliche Zahlung
+        startwert_rente = startwert
+        wachstum = float(input(f"Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für {name} ein: ")) / 100
+        if startjahr < renteneintritt:
+            for jahr in range(renteneintritt - startjahr):
+                startwert_rente *= (1 + wachstum)    
+                print(f"Durchlauf: {jahr} - Höhe der {name}: {startwert_rente:.2f} Euro am 31.12.{startjahr+jahr}")      
+            startjahr_rente = renteneintritt
+            print(f"Höhe der {name}: {startwert_rente:.2f} Euro in {startjahr_rente}.")
+        einkuenfte.append((name,startjahr,startjahr_rente, startwert,startwert_rente, wachstum))
+    
+   
+   
    
    # Listen für die Jahre, Einkünfte und Ausgaben
     jahre = []
     einkommen_liste = []
+    einkommen_liste_zusatz = []
     ausgaben_liste = []
 
     # Werte zu Rentenbeginn berechnen
@@ -55,7 +82,7 @@ def berechne_rentenluecke():
     
     print(f"Jährliche Rente zum Renteneintritt: {aktuelles_einkommen:.2f} Euro")
     
-
+ 
     # Höhe der Ausgaben zum Renteneintritt berechnen
     aktuelle_ausgaben = ausgaben
     for jahr in range(jahre_bis_renteneintritt):
@@ -67,12 +94,28 @@ def berechne_rentenluecke():
  
     # Summen der Ausgaben und Einkünfte während der Rentenjahre 
     # Einnahmen während der Rentenjahre berechnen
+    # Renteneinkünfte
     for jahr in range(rentenjahre):
         aktuelles_einkommen *= (1 + rentenerhoehung_nach_rente)
         einkommen_liste.append(aktuelles_einkommen)
     gesamt_einkommen = sum(einkommen_liste)
     print(f"Summe der Renteneinkünfte innerhalb der Rente: {gesamt_einkommen:.2f} Euro")
 
+    # Zusätzliche Einkünfte
+    if einkuenfte:
+        for name,startjahr,startjahr_rente, startwert,startwert_rente, wachstum in einkuenfte:
+            laufzeit = (geburtsjahr + lebensalter) - startjahr_rente
+            print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren")
+            zusatz_einkommen = 0 #initialisieren
+            for jahr in range(laufzeit):
+                startwert_rente *= (1 + wachstum)
+                zusatz_einkommen  += startwert_rente
+                einkommen_liste_zusatz.append(zusatz_einkommen)
+            gesamt_einkommen_zusatz = sum(einkommen_liste_zusatz)
+            print(f"Name: {name} bringt zusätzlichen Einkünfte innerhalb der Rente von: {gesamt_einkommen_zusatz:.2f} Euro")
+ 
+ 
+  
     
     # Ausgaben während der Rentenjahre berechnen
     for jahr in range(rentenjahre):
@@ -82,50 +125,17 @@ def berechne_rentenluecke():
     print(f"Summe der Ausgaben innerhalb der Rente: {gesamt_ausgaben:.2f} Euro")
     
     # Berechnung der Rentenlücke
-    rentenluecke = gesamt_ausgaben - gesamt_einkommen
+    # zusätzliche Einkünfte einbeziehen
+    if einkuenfte:
+        gesamt_einkommen += gesamt_einkommen_zusatz
+       
+    rentenluecke = gesamt_ausgaben - (gesamt_einkommen)
     if rentenluecke > 0:
         print(f"Die Rentenlücke beträgt: {rentenluecke:.2f} Euro.")
     else:
         print("Sie haben keine Rentenlücke, Ihre Einkünfte decken die Ausgaben.")
+        print(f"Der Überschuss geträgt: {abs(rentenluecke):.2f} Euro.")
       
- 
-   
-    # Berechnung der Gesamteinkünfte bis zum Renteneintritt
-  #  for jahr in range(jahre_bis_renteneintritt):
-  #      jahre.append(aktuelles_jahr + jahr)
-  #      aktuelles_einkommen *= (1 + rentenerhoehung_vor_rente)
-  #      einkuenfte_liste.append(aktuelles_einkommen)
-
-    # Berechnung der Ausgaben und Fortführung nach Renteneintritt
-  #  for jahr in range(rentenjahre):
-  #      ausgaben *= (1 + inflationsrate)
-  #      aktuelles_einkommen *= (1 + rentenerhoehung_nach_rente)  # Rentenerhöhung nach Renteneintritt
-  #      einkuenfte_liste.append(aktuelles_einkommen)  # Einkommen nach Renteneintritt
-  #      ausgaben_liste.append(ausgaben)
-
-    # Ausgabe initialisieren
-  #  ausgaben_liste = [ausgaben] * jahre_bis_renteneintritt + ausgaben_liste  # Füge Ausgaben bis zum Renteneintritt hinzu
-
-    # Ermittlung der Rentenlücke
-  #  gesamt_einkommen = sum(einkuenfte_liste)
-  #  gesamt_ausgaben = sum(ausgaben_liste)
-  # rentenluecke = gesamt_ausgaben - gesamt_einkommen
-
-  #  if rentenluecke > 0:
-  #      print(f"Die Rentenlücke beträgt: {rentenluecke:.2f} Euro.")
-  #  else:
-  #      print("Sie haben keine Rentenlücke, Ihre Einkünfte decken die Ausgaben.")
-
-    # Diagramm erstellen
-  #  plt.figure(figsize=(10, 5))
-  #  plt.plot(jahre, einkuenfte_liste, label='Einkommen', color='blue')
-  #  plt.plot(jahre, ausgaben_liste, label='Ausgaben', color='red')
-  # plt.xlabel('Jahr')
-  #  plt.ylabel('Betrag (Euro)')
-  #  plt.title('Einkommen und Ausgaben über die Jahre')
-  #  plt.legend()
-  #  plt.grid()
-  #  plt.show()
 
 
 # Programm ausführen
