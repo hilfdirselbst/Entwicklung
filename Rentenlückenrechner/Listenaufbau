@@ -1,0 +1,41 @@
+Einnahmen
+
+einnahmen=	[
+				{'Name':	'staatl. Rente',	'Steigerung':	1.00,		'Jahr':	2036,	'Betrag':	1500.00},
+				{'Name':	'staatl. Rente',	'Steigerung':	1.00,		'Jahr':	2037,	'Betrag':	1515.00},
+				{'Name':	'staatl. Rente',	'Steigerung':	1.00,		'Jahr':	2038,	'Betrag':	1530.15},
+				{'Name':	'staatl. Rente',	'Steigerung':	1.00,		'Jahr':	2039,	'Betrag':	1545.45},
+				{'Name':	'staatl. Rente',	'Steigerung':	1.00,		'Jahr':	2040,	'Betrag':	1560,90},
+				
+			]
+
+
+TODO: Welche Datenstrukture ist am besten geeignet, um meine Daten speichern und bearbeiten (summen bilden) zu können?
+
+
+
+	
+>>> weekday_temperatures = [
+...   {'day': 'Monday',    'date': '2019-07-15', 'temperature': 31},
+...   {'day': 'Tuesday',   'date': '2019-07-16', 'temperature': 33},
+...   {'day': 'Wednesday', 'date': '2019-07-17', 'temperature': 27},
+...   {'day': 'Thursday',  'date': '2019-07-18', 'temperature': 25},
+...   {'day': 'Friday',    'date': '2019-07-19', 'temperature': 30},
+...   {'day': 'Saturday',  'date': '2019-07-20', 'temperature': 31},
+...   {'day': 'Sunday',    'date': '2019-07-21', 'temperature': 29},
+...   {'day': 'Monday',    'date': '2019-07-22', 'temperature': 25},
+...   {'day': 'Tuesday',   'date': '2019-07-23', 'temperature': 31},
+...   {'day': 'Wednesday', 'date': '2019-07-24', 'temperature': 26},
+...   {'day': 'Thursday',  'date': '2019-07-25', 'temperature': 23},
+...   {'day': 'Friday',    'date': '2019-07-26', 'temperature': 22},
+...   {'day': 'Saturday',  'date': '2019-07-27', 'temperature': 23},
+...   {'day': 'Sunday',    'date': '2019-07-28', 'temperature': 32}
+... ]
+>>> hot_work_days = [
+...     (hot_day['date'], hot_day['temperature']) for hot_day in
+...     [
+...         workday for workday in weekday_temperatures if workday['day'] not in ['Saturday', 'Sunday']
+...     ] if hot_day['temperature'] >= 30
+... ]
+>>> hot_work_days
+[('2019-07-15', 31), ('2019-07-16', 33), ('2019-07-19', 30), ('2019-07-23', 31)]
