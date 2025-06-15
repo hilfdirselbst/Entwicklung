@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
+import datetime
 
-def berechne_rentenluecke():
-    # Benutzereingaben abfragen
+import funktionen as myfunc
 
 # import matplotlib.pyplot as plt
-import datetime
-import funktionen as myfunc
+#import funktionen as myfunc
 
 def berechne_rentenluecke():
     # Benutzereingaben abfragendatetime.datetime.now().year
