@@ -1,7 +1,8 @@
 from datetime import datetime
 import time
 
-import matplotlib.pyplot as plt
+
+#from matplotlib import matplotlib.pyplot as plt
 
 def berechne_rentenluecke():
    # aktuelles Jahr ermitteln
@@ -17,7 +18,8 @@ def berechne_rentenluecke():
     jahre_bis_renteneintritt = renteneintrittsalter - (aktuelles_jahr - geburtsjahr)
     rentenjahre = lebensalter - renteneintrittsalter
     lebensjahre_aktuell = lebensalter - (aktuelles_jahr - geburtsjahr) 
-    print(f"Lebensjahre: {lebensjahre_aktuell}")
+    print(f"Sie sind aktuell {aktuelles_jahr - geburtsjahr} Jahre alt.")
+    print(f"Ihre Lebensjahre bis zum Lebensende: {lebensjahre_aktuell}")
     print(f"Renteneintritt: {renteneintritt}")
     print(f"Jahre bis zum Renteneintritt: {jahre_bis_renteneintritt}")
     print(f"Jahre nach dem Renteneintritt: {rentenjahre}")
@@ -105,12 +107,16 @@ def berechne_rentenluecke():
     if einkuenfte:
         for name,startjahr,startjahr_rente, startwert,startwert_rente, wachstum in einkuenfte:
             laufzeit = (geburtsjahr + lebensalter) - startjahr_rente
-            print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren")
+            #print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren")
+            print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren, Startjahr: {startjahr_rente}, Startwert: {startwert_rente:.2f} Euro, jährliches Wachstum: {wachstum:.2f}")
             zusatz_einkommen = 0 #initialisieren
             for jahr in range(laufzeit):
+                zusatz_einkommen = 0 #initialisieren
                 startwert_rente *= (1 + wachstum)
+                print(f"Durchlauf: {jahr} - Höhe der {name}: {startwert_rente:.2f} Euro am 31.12.{startjahr_rente+jahr}")
                 zusatz_einkommen  += startwert_rente
                 einkommen_liste_zusatz.append(zusatz_einkommen)
+                print(f"Summe von {name} in Jahr {startjahr_rente+jahr}: {sum(einkommen_liste_zusatz):.2f} Euro")    
             gesamt_einkommen_zusatz = sum(einkommen_liste_zusatz)
             print(f"Name: {name} bringt zusätzlichen Einkünfte innerhalb der Rente von: {gesamt_einkommen_zusatz:.2f} Euro")
  
