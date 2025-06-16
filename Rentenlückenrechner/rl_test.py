@@ -74,6 +74,7 @@ def berechne_rentenluecke():
     jahre = []
     einkommen_liste = []
     einkommen_liste_zusatz = []
+    einkommen_liste_summen = []
     ausgaben_liste = []
 
     # Werte zu Rentenbeginn berechnen
@@ -113,15 +114,20 @@ def berechne_rentenluecke():
             for jahr in range(laufzeit):
                 zusatz_einkommen = 0 #initialisieren
                 startwert_rente *= (1 + wachstum)
-                print(f"Durchlauf: {jahr} - Höhe der {name}: {startwert_rente:.2f} Euro am 31.12.{startjahr_rente+jahr}")
+                #print(f"Durchlauf: {jahr} - Höhe der {name}: {startwert_rente:.2f} Euro am 31.12.{startjahr_rente+jahr}")
                 zusatz_einkommen  += startwert_rente
                 einkommen_liste_zusatz.append(zusatz_einkommen)
-                print(f"Summe von {name} in Jahr {startjahr_rente+jahr}: {sum(einkommen_liste_zusatz):.2f} Euro")    
+                #print(f"Summe von {name} in Jahr {startjahr_rente+jahr}: {sum(einkommen_liste_zusatz):.2f} Euro")    
             gesamt_einkommen_zusatz = sum(einkommen_liste_zusatz)
-            print(f"Name: {name} bringt zusätzlichen Einkünfte innerhalb der Rente von: {gesamt_einkommen_zusatz:.2f} Euro")
+            einkommen_liste_summen.append((name,sum(einkommen_liste_zusatz)))
+            #for name,betrag in einkommen_liste_summen:
+            #    print(f"Zusätzliche Einkünfte von {name} innerhalb der Rente: {betrag:.2f} Euro")
+            
+            #print(f"Name: {name} bringt zusätzlichen Einkünfte innerhalb der Rente von: {gesamt_einkommen_zusatz:.2f} Euro")
  
- 
-  
+    for name,betrag in einkommen_liste_summen:
+        print(f"Zusätzliche Einkünfte von {name} innerhalb der Rente: {betrag:.2f} Euro")
+
     
     # Ausgaben während der Rentenjahre berechnen
     for jahr in range(rentenjahre):
