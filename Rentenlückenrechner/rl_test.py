@@ -76,7 +76,7 @@ def berechne_rentenluecke():
     einkommen_liste_zusatz = []
     einkommen_liste_summen = []
     ausgaben_liste = []
-
+    
     # Werte zu Rentenbeginn berechnen
     # Höhe der Rente zum Beginn der Rente berechnen
     aktuelles_einkommen = rente
@@ -108,9 +108,10 @@ def berechne_rentenluecke():
     if einkuenfte:
         for name,startjahr,startjahr_rente, startwert,startwert_rente, wachstum in einkuenfte:
             laufzeit = (geburtsjahr + lebensalter) - startjahr_rente
-            #print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren")
-            print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren, Startjahr: {startjahr_rente}, Startwert: {startwert_rente:.2f} Euro, jährliches Wachstum: {wachstum:.2f}")
+            print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren")
+            #print(f"Name: {name} hat eine Laufzeit: {laufzeit} Jahren, Startjahr: {startjahr_rente}, Startwert: {startwert_rente:.2f} Euro, jährliches Wachstum: {wachstum:.2f}")
             zusatz_einkommen = 0 #initialisieren
+            einkommen_liste_zusatz = [] #initialisieren
             for jahr in range(laufzeit):
                 zusatz_einkommen = 0 #initialisieren
                 startwert_rente *= (1 + wachstum)
@@ -124,10 +125,12 @@ def berechne_rentenluecke():
             #    print(f"Zusätzliche Einkünfte von {name} innerhalb der Rente: {betrag:.2f} Euro")
             
             #print(f"Name: {name} bringt zusätzlichen Einkünfte innerhalb der Rente von: {gesamt_einkommen_zusatz:.2f} Euro")
- 
+    
+    ges_einkommen_zusatz = 0 #initialisieren
+    ges_einkommen_zusatz = sum(betrag for name, betrag in einkommen_liste_summen)
     for name,betrag in einkommen_liste_summen:
         print(f"Zusätzliche Einkünfte von {name} innerhalb der Rente: {betrag:.2f} Euro")
-
+    
     
     # Ausgaben während der Rentenjahre berechnen
     for jahr in range(rentenjahre):
@@ -139,7 +142,7 @@ def berechne_rentenluecke():
     # Berechnung der Rentenlücke
     # zusätzliche Einkünfte einbeziehen
     if einkuenfte:
-        gesamt_einkommen += gesamt_einkommen_zusatz
+        gesamt_einkommen += ges_einkommen_zusatz
        
     rentenluecke = gesamt_ausgaben - (gesamt_einkommen)
     if rentenluecke > 0:
