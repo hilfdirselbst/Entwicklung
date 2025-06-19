@@ -1,5 +1,6 @@
 from datetime import datetime
 import time
+import re
 
 
 #from matplotlib import matplotlib.pyplot as plt
@@ -8,6 +9,12 @@ def berechne_rentenluecke():
    # aktuelles Jahr ermitteln
     aktuelles_jahr = datetime.now().year
     print(f"Aktuelles Jahr: {aktuelles_jahr}")
+    
+    # RegEx Muster für Eingabenprüfung
+    muster_name = r'^[A-Za-z0-9-]+$'        # Muster für Namen (Buchstaben, Zahlen und Bindestrich)
+    muster_jahr = r'^\d{4}$'                # Muster für Jahr (nur 4-stellige Zahlen)
+    muster_alter = r'^\d{2}$'               # Muster für Alter (nur 2-stellige Zahlen)    
+    muster_betrag = r'^\d+(\.\d{1,2})?$'    # Muster für Beträge (Zahlen mit optionalen Dezimalstellen)
     
     # Benutzereingaben abfragen
     # Zeitrahmen
