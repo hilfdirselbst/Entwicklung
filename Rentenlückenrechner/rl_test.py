@@ -3,8 +3,6 @@ import time
 import re
 
 
-#from matplotlib import matplotlib.pyplot as plt
-
 def berechne_rentenluecke():
    # aktuelles Jahr ermitteln
     aktuelles_jahr = datetime.now().year
@@ -16,56 +14,175 @@ def berechne_rentenluecke():
     muster_alter = r'^\d{2}$'               # Muster für Alter (nur 2-stellige Zahlen)    
     muster_betrag = r'^\d+(\.\d{1,2})?$'    # Muster für Beträge (Zahlen mit optionalen Dezimalstellen)
     
-    # Benutzereingaben abfragen
-    # Zeitrahmen
-    geburtsjahr = int(input("Geben Sie Ihr Geburtsjahr (z.B. 1980) ein: "))
-    renteneintrittsalter = int(input("Geben Sie Ihr Renteneintrittsalter (z.B. 67) ein: "))
+    
+    print("_______________________________Rentenlückenrechner_______________________________________")
+    print("")
+    print("Die Rentenlücke ist definiert als die Differenz zwischen den Einnahmen vor Renteneintritt und")
+    print("den Einnahmen nach Renteneintritt.")
+    print("")
+    print("Der Rentenlückenrechner soll für das Thema sensibilieren und die Stellschrauben zeigen, ")
+    print("die Einfluss auf die Größe der zu erwartenden Rentenlücken haben.")
+    print("Da wir alle nicht die steuerliche Situation zu unserem Renteneintritt kennen,")
+    print("sollte das Ergebnis als Annäherung verstanden und ")
+    print("zur Sicherheit ein entsprechender Puffer eingebaut werden.")
+    print("")
+    print("Bitte beachten Sie, dass auf die Rente und sonstige Einkommen unter Umständen Steuern und")
+    print("Sozialabgaben anfallen können, die hier nicht berücksichtigt sind.") 
+    
+    
+    # Daten abfragen
+
+    # Geburtsjahr eingeben
+    while True:
+        eingabe = input("Geben Sie Ihr Geburtsjahr (z.B. 1980) ein: ")
+        if re.match(muster_jahr, eingabe):
+            geburtsjahr = int(eingabe)
+            break
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie ein Jahr mit 4 Ziffern ein (z.B. 1980).")
+        
+    # Renteneintrittsalter eingeben
+    while True:
+        eingabe = input("Geben Sie Ihr Renteneintrittsalter (z.B. 67) ein: ")
+        if re.match(muster_alter, eingabe):
+            renteneintrittsalter = int(eingabe)
+            break
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie ein Alter mit 2 Ziffern ein (z.B. 67).")
+    
+    # Lebensende eingeben
+    while True:
+        eingabe = input("Geben Sie Ihr gewünschtes Lebensende (z.B. 90) ein: ")
+        if re.match(muster_alter, eingabe):
+            lebensalter = int(eingabe)
+            break
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie ein Alter mit 2 Ziffern ein (z.B. 90).")
+    
+    
+        
     renteneintritt = geburtsjahr + renteneintrittsalter
-    lebensalter = int(input("Geben Sie Ihr gewünschtes Lebensende (z.B. 90) ein: "))
     jahre_bis_renteneintritt = renteneintrittsalter - (aktuelles_jahr - geburtsjahr)
     rentenjahre = lebensalter - renteneintrittsalter
     lebensjahre_aktuell = lebensalter - (aktuelles_jahr - geburtsjahr) 
     print(f"Sie sind aktuell {aktuelles_jahr - geburtsjahr} Jahre alt.")
-    print(f"Ihre Lebensjahre bis zum Lebensende: {lebensjahre_aktuell}")
+    print(f"Lebensjahre bis zum Lebensende: {lebensjahre_aktuell}")
     print(f"Renteneintritt: {renteneintritt}")
     print(f"Jahre bis zum Renteneintritt: {jahre_bis_renteneintritt}")
-    print(f"Jahre nach dem Renteneintritt: {rentenjahre}")
+    print(f"Jahre mit Rentenbezug: {rentenjahre}")
     
     # Ausgaben
-    ausgaben_monatlich = float(input("Geben Sie Ihre monatlichen Ausgaben (ohne Investitionen) ein: "))
+    while True:
+        eingabe = input("Geben Sie Ihre monatlichen Ausgaben (ohne Investitionen) ein: ")
+        if re.match(muster_betrag, eingabe):
+            ausgaben_monatlich = float(eingabe)
+            break   
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl ein.")
+    
+        
     ausgaben = ausgaben_monatlich * 12  # jährliche Ausgaben
     #ausgaben *= (1 + float(input("Geben Sie die jährliche Ausgabensteigerung in Prozent ein: ")) / 100) ** lebensjahre_aktuell  # jährliche Ausgabensteigerung
     print(f"Jährliche Ausgaben: {ausgaben:.2f} Euro")
     
+    
     # Inflation
     print("Die Inflation wird auf die jährlichen Ausgaben angewendet.")
-    inflationsrate = float(input("Geben Sie die jährliche Inflation in Prozent ein: ")) / 100
+    while True:
+        eingabe = input("Geben Sie die jährliche Inflation in Prozent ein: ")
+        if re.match(muster_betrag, eingabe):
+            inflationsrate = float(eingabe) / 100
+            break   
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl ein.")
     
-
+    
     # Einkommen
-    rente_monatlich = float(input("Geben Sie Ihre monatliche Rente (aktuell zu erwartende Rente laut Bescheid RV) ein: "))
+    while True:
+        eingabe = input("Geben Sie Ihre monatliche Rente (aktuell zu erwartende Rente laut Bescheid RV) ein: ")
+        if re.match(muster_betrag, eingabe):
+            rente_monatlich = float(eingabe)
+            break   
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl ein.")
+
+    print(f"Die aktuellen Ausgaben für Kranken- und Pflegeversicherung getraten 14,6%, damit ergibt sich eine monatliche Rente von: {rente_monatlich * 0.854} Euro.")
+    rente_monatlich = rente_monatlich * 0.854
+    
     rente = rente_monatlich * 12  # jährliche Rente
     #einkommen_monatlich = float(input("Geben Sie Ihr monatliches Einkommen ein: "))
     #einkommen = einkommen_monatlich * 12  # jährliches Einkommen
 
     # Rentenanpassungen
-    rentenerhoehung_vor_rente = float(input("Geben Sie die jährliche Rentenerhöhung bis zum Renteneintritt in Prozent ein: ")) / 100
-    rentenerhoehung_nach_rente = float(input("Geben Sie die jährliche Rentenerhöhung nach dem Renteneintritt in Prozent ein: ")) / 100
+    # Anpassungen bis Renteneintritt
+    while True:
+        eingabe = input("Geben Sie die jährliche prozentuale Erhöhung der Rente bis zum Renteneintritt ein: ")
+        if re.match(muster_betrag, eingabe):
+            rentenerhoehung_vor_rente = float(eingabe) / 100
+            break   
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl ein.")
+    
+    # Anpassungen nach Renteneintritt    
+    while True:
+        eingabe = input("Geben Sie die jährliche Rentenerhöhung während des Rentenbezugs ein: ")
+        if re.match(muster_betrag, eingabe):
+            rentenerhoehung_nach_rente = float(eingabe) / 100
+            break   
+        else:
+            print("Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl ein.")
 
+    
     # zusätzliche Einkünfte 
     # Hier können Sie weitere Einkünfte hinzufügen z.B private Renten-, Lebensversicherungen oder andere Einkünfte
     einkuenfte = []
     print("Sie können jetzt weitere Einkünfte, wie private Renten-, Lebensversicherungen oder andere Einkünfte, eingeben.")
     while True:
-        name = input("Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): ")
+        # Namen des Einkommens
+        while True:
+            eingabe = input("Geben Sie den Namen des Einkommens ein (oder 'stop' zum Beenden): ")
+            if re.match(muster_name, eingabe):
+                name = eingabe
+                break   
+            else:
+                print("Ungültige Eingabe. Bitte benutzen Sie für die Namen nur Buchstaben, Zahlen und Bindestriche.")
+        
         if name.lower() == 'stop':
             break
-        startjahr = int(input(f"Geben Sie das Jahr(YYYY) ein ab dem sie das Einkommen {name} erhalten: "))
+        
+        # Startjahr des Einkommens
+        while True:
+                eingabe = input(f"Geben Sie das Jahr(YYYY) ein ab dem sie das Einkommen {name} erhalten: ")
+                if re.match(muster_jahr, eingabe):
+                    startjahr = int(eingabe)
+                    break   
+                else:
+                    print("Ungültige Eingabe. Bitte geben Sie ein Jahr mit 4 Ziffern ein (z.B. 1980).")
+           
         startjahr_rente = startjahr
-        startwert_mon = float(input(f"Geben Sie die Höhe der monatlichen Zahlung für {name} ein: "))
+        
+        # monatliche Zahlung des Einkommes
+        while True:
+            eingabe = input(f"Geben Sie die Höhe der monatlichen Zahlung für {name} ein: ")
+            if re.match(muster_betrag, eingabe):
+                startwert_mon = float(eingabe)
+                break   
+            else:
+                print("Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl ein.")
+
         startwert = startwert_mon * 12  # jährliche Zahlung
         startwert_rente = startwert
-        wachstum = float(input(f"Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für {name} ein: ")) / 100
+
+        # jährliche prozentuale Steigerung des Einkommens
+        while True:
+            eingabe = input(f"Geben Sie das jährliche Wachstum in Prozent (0 für kein Wachstum) für {name} ein: ")
+            if re.match(muster_betrag, eingabe):
+                wachstum = float(eingabe) / 100
+                break   
+            else:
+                print("Ungültige Eingabe. Bitte geben Sie einen gültigen Betrag als Ganzzahl oder Dezimalzahl ein.")
+
+
         if startjahr < renteneintritt:
             for jahr in range(renteneintritt - startjahr):
                 startwert_rente *= (1 + wachstum)    
@@ -158,7 +275,6 @@ def berechne_rentenluecke():
         print("Sie haben keine Rentenlücke, Ihre Einkünfte decken die Ausgaben.")
         print(f"Der Überschuss geträgt: {abs(rentenluecke):.2f} Euro.")
       
-
 
 # Programm ausführen
 berechne_rentenluecke()
