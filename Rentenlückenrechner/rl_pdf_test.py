@@ -45,7 +45,7 @@ def erstelle_pdf(geburtsjahr, renteneintrittsalter, lebensalter, ausgaben_monatl
 
     # Berechnung der Rentenlücke
     for jahr in range(rentenjahre):
-        aktuelles_einkommen *= (1 + float(entry_rentenerhoehung_nach_rente.get()) / 100)
+        aktuelles_einkommen *= ((1 + 0.01) / 100)
         gesamt_einkommen += aktuelles_einkommen
 
     rentenluecke = aktuelle_ausgaben - gesamt_einkommen
