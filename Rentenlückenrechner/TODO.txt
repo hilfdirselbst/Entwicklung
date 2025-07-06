@@ -1,0 +1,3 @@
+- Berechnung von Einkommen mit Startjahr <> Renteneintritt korrigieren
+- Eingabe von Komma und Darstellung von Komma einrichten
+- Ausgabe als EXE unter Windows 
