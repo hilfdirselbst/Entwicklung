@@ -12,6 +12,13 @@ Dieses Projekt steht unter der MIT-Lizenz – siehe LICENSE für Details.
 📧 [rlr@hilf-dir-selber.de]
 🌐 GitHub: github.com/hilfdirselbst
 
+## aktuelle Einschränkungen
+- Die Eingabe von Dezimalzahlen ist aktuell nur mit Punkt (1.24) möglich.
+- Die Berechnung ist nur korrekt wenn für das Startjahr zusätzlicher Einkommen das Jahr des Renteneintritts eingegeben wird.
+
+
+
+
 
 ## 📌 Beschreibung
 
