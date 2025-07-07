@@ -1,11 +1,11 @@
 # 🧮 Rentenlückenrechner
 
-**Version:** 0.9.0  
+**Version:** 0.9.0 beta 
 **Sprache:** Python  
 **Lizenz:**  MIT
 
 📃 Lizenz
-Dieses Projekt steht unter der MIT-Lizenz – siehe LICENSE für Details.
+Dieses Projekt steht unter der MIT-Lizenz – siehe LICENSE.txt für Details.
 
 👤 Autor
 [Steffen Tschirner]
@@ -52,10 +52,6 @@ Die Ergenisse werden anschließend in eine PDF Datei geschrieben.
 
 - Python 3.8 oder höher
 
-### Abhängigkeiten installieren
-
-
-pip install -r requirements.txt
 
 ## ▶️ Verwendung
 
