@@ -58,7 +58,7 @@ Die Ergenisse werden anschließend in eine PDF Datei geschrieben.
 python rentenlueckenrechner.py
 
 ## 📄 Beispielausgabe
-
+´´´
 Geben Sie Ihr Geburtsjahr (z.B. 1980) ein: 1978
 Geben Sie Ihr Renteneintrittsalter (z.B. 67) ein: 67
 Geben Sie Ihr Wunschalter (z.B. 90) ein: 90
@@ -120,3 +120,4 @@ Ergebnis
 Die Rentenlücke beträgt: 376.221,03 Euro.
 -----------------------------------------------------------------------------------
 Eine PDF Datei mit der Berechnung wurden im aktuellen Verzeichnis erstellt: Rentenluecken-Berechnung_06-07-2025_17-32-16.pdf
+´´´
